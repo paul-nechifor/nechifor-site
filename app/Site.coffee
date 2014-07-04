@@ -3,7 +3,7 @@ http = require 'http'
 path = require 'path'
 
 module.exports = class Site
-  constructor: (@apps) ->
+  constructor: (@apps, @rootProject) ->
     @express = null
     @server = null
     @port = 3000
@@ -28,8 +28,11 @@ module.exports = class Site
     e.use express.methodOverride()
     e.use '/s', express.static __dirname + '/../s'
     @bindLocals()
+    e.use (req, res, next) =>
+      if req.url is '/'
+        req.url += @rootProject
+      next()
     e.use e.router
-    e.use '/', express.static __dirname + '/../html'
     @registerRoutes()
 
   bindLocals: ->
@@ -38,7 +41,7 @@ module.exports = class Site
     return
 
   bindLocalsFor: (app) ->
-    @express.use '/' + app.id, (req, res, next) ->
+    @express.use app.root, (req, res, next) ->
       res.locals.app = app
       next()
       return
@@ -49,16 +52,16 @@ module.exports = class Site
     return
 
   registerRoutesFor: (app) ->
-    prefix = '/' + app.id
     if app.useHtml
-      @express.use prefix, express.static __dirname + '/../html'
+      @express.use app.root, express.static __dirname + '/../html/' + app.id
 
     return unless app.useAppLogic
     appLogic = require path.resolve "#{__dirname}/#{app.id}/index"
 
     for route in app.routes
       [verb, path, funcName] = route
-      @express[verb] prefix + path, appLogic.routes[funcName]
+      loc = app.root + if path is '/' then '' else path
+      @express[verb] loc, appLogic.routes[funcName]
     return
 
   createServer: (cb) ->

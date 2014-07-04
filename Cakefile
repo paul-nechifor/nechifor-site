@@ -4,11 +4,12 @@ require('coffee-script').register()
 {sh, cmd} = Build
 fs = require 'fs'
 
-projectPaths =
-  [
-    'intercessor-example'
-    'nechifor-index'
-  ].map (n) -> '/home/p/pro/' + n
+projectsRoot = '/home/p/pro'
+projects = [
+  'intercessor-example'
+  'nechifor-index'
+]
+rootProject = 'nechifor-index'
 
 apps = []
 
@@ -27,8 +28,9 @@ b = new Build task, {}, (->),
   compile: (cb) ->
     i = 0
     next = ->
-      return cb() if i >= projectPaths.length
-      intercessor = new Intercessor projectPaths[i], 'build'
+      return cb() if i >= projects.length
+      projectPath = projectsRoot + '/' + projects[i]
+      intercessor = new Intercessor projectPath, 'build'
       intercessor.standalone = false
       intercessor.build (err) ->
         return cb err if err
@@ -46,7 +48,7 @@ b = new Build task, {}, (->),
     fs.writeFileSync 'build/app/app.js', """
       var Site = require('./Site');
       var apps = #{JSON.stringify apps};
-      var site = new Site(apps);
+      var site = new Site(apps, #{JSON.stringify rootProject});
       site.start(function () {});
     """
     cb()
