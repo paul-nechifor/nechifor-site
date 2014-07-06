@@ -7,6 +7,9 @@ fs = require 'fs'
 projectsRoot = '/home/p/pro'
 projects = [
   'intercessor-example'
+  'git-visualization'
+  'sidrem'
+  'circuits'
   'nechifor-index'
 ]
 rootProject = 'nechifor-index'

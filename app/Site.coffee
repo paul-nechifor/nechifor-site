@@ -59,8 +59,8 @@ module.exports = class Site
     appLogic = require path.resolve "#{__dirname}/#{app.id}/index"
 
     for route in app.routes
-      [verb, path, funcName] = route
-      loc = app.root + if path is '/' then '' else path
+      [verb, routePath, funcName] = route
+      loc = app.root + if routePath is '/' then '' else routePath
       @express[verb] loc, appLogic.routes[funcName]
     return
 
