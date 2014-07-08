@@ -10,6 +10,7 @@ projects = [
   'git-visualization'
   'sidrem'
   'circuits'
+  ['nechifor-blog', 'blog']
   'nechifor-index'
 ]
 rootProject = 'nechifor-index'
@@ -32,8 +33,11 @@ b = new Build task, {}, (->),
     i = 0
     next = ->
       return cb() if i >= projects.length
-      projectPath = projectsRoot + '/' + projects[i]
+      project = projects[i]
+      project = project[0] if project instanceof Array
+      projectPath = projectsRoot + '/' + project
       intercessor = new Intercessor projectPath, 'build'
+      intercessor.customRoot = projects[i][1] if projects[i] instanceof Array
       intercessor.standalone = false
       intercessor.build (err) ->
         return cb err if err

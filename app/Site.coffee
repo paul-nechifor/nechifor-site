@@ -41,7 +41,7 @@ module.exports = class Site
     return
 
   bindLocalsFor: (app) ->
-    @express.use app.root, (req, res, next) ->
+    @express.use app.rootHref, (req, res, next) ->
       res.locals.app = app
       next()
       return
@@ -53,14 +53,14 @@ module.exports = class Site
 
   registerRoutesFor: (app) ->
     if app.useHtml
-      @express.use app.root, express.static __dirname + '/../html/' + app.id
+      @express.use app.rootHref, express.static __dirname + '/../html/' + app.id
 
     return unless app.useAppLogic
     appLogic = require path.resolve "#{__dirname}/#{app.id}/index"
 
     for route in app.routes
       [verb, routePath, funcName] = route
-      loc = app.root + if routePath is '/' then '' else routePath
+      loc = app.rootHref + if routePath is '/' then '' else routePath
       @express[verb] loc, appLogic.routes[funcName]
     return
 
