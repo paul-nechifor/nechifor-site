@@ -22,6 +22,8 @@ module.exports = class Site
     e.set 'views', __dirname + '/../views'
     e.set 'view engine', 'jade'
 
+    @importAppLogics()
+
     express.logger.token 'date', -> new Date().toISOString()
     e.use express.logger ':date :remote-addr :method :url :status :response-time'
 
@@ -35,8 +37,15 @@ module.exports = class Site
       if req.url is '/'
         req.url += @rootProject
       next()
+    @registerPreRouters()
     e.use e.router
     @registerRoutes()
+
+  importAppLogics: ->
+    for app in @apps
+      if app.useAppLogic
+        app.appLogic = require path.resolve "#{__dirname}/#{app.id}/index"
+    return
 
   bindLocals: ->
     for app in @apps
@@ -49,6 +58,14 @@ module.exports = class Site
       next()
       return
 
+  registerPreRouters: ->
+    for app in @apps
+      continue unless app.useAppLogic
+      c = app.appLogic.changers
+      if c and c.preRouter
+        c.preRouter @express, app
+    return
+
   registerRoutes: ->
     for app in @apps
       @registerRoutesFor app
@@ -59,12 +76,11 @@ module.exports = class Site
       @express.use app.rootHref, express.static __dirname + '/../html/' + app.id
 
     return unless app.useAppLogic
-    appLogic = require path.resolve "#{__dirname}/#{app.id}/index"
 
     for route in app.routes
       [verb, routePath, funcName] = route
       loc = app.rootHref + if routePath is '/' then '' else routePath
-      @express[verb] loc, appLogic.routes[funcName]
+      @express[verb] loc, app.appLogic.routes[funcName]
     return
 
   createServer: (cb) ->
