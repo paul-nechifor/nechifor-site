@@ -74,6 +74,8 @@ module.exports = class Site
   registerRoutesFor: (app) ->
     if app.useHtml
       @express.use app.rootHref, express.static __dirname + '/../html/' + app.id
+    if app.staticApp
+      @express.use app.rootHref, express.static __dirname + '/../sa/' + app.id
 
     return unless app.useAppLogic
 

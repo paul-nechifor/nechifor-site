@@ -26,6 +26,7 @@ getApps = ->
     'git-visualization'
     'sidrem'
     'circuits'
+    'check-your-privilege'
     ['nechifor-blog', 'blog']
     'nechifor-index'
   ]
