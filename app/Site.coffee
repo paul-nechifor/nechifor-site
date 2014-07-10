@@ -22,6 +22,9 @@ module.exports = class Site
     e.set 'views', __dirname + '/../views'
     e.set 'view engine', 'jade'
 
+    express.logger.token 'date', -> new Date().toISOString()
+    e.use express.logger ':date :remote-addr :method :url :status :response-time'
+
     e.use express.favicon()
     e.use express.urlencoded()
     e.use express.json()
