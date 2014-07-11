@@ -5,6 +5,12 @@ async = require 'async'
 gulp = require 'gulp'
 fs = require 'fs'
 
+analyticsCode = do ->
+  try
+    fs.readFileSync('private/analyticsCode', 'utf8').trim()
+  catch e
+    null
+
 class App
   constructor: (@root, @opts) ->
     if typeof @opts is 'string'
@@ -18,6 +24,7 @@ class App
     @intercessor = new Intercessor @path, 'build'
     @intercessor.customRoot = @customRoot if @customRoot
     @intercessor.standalone = false
+    @intercessor.analyticsCode = analyticsCode
     @intercessor.build cb
 
 getApps = ->
