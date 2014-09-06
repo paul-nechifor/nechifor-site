@@ -18,7 +18,11 @@ html(lang=app.lang)
     block content
 
     footer
-      p.text-center Created by <a href='http://nechifor.net'>Paul Nechifor</a>.
+      p.text-center
+        if app.lang === 'ro'
+          | Creat de <a href='http://nechifor.net'>Paul Nechifor</a>.
+        else
+          | Created by <a href='http://nechifor.net'>Paul Nechifor</a>.
 
     script(src='//code.jquery.com/jquery-1.10.2.min.js')
     script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')

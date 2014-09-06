@@ -32,6 +32,7 @@ getApps = ->
     'intercessor-example'
     'git-visualization'
     'sidrem'
+    'sibf'
     'circuits'
     'check-your-privilege'
     ['nechifor-blog', 'blog']
