@@ -2,6 +2,8 @@
 
 The Node app that joins all my other [Intercessor][ic] apps.
 
+![cover image](screenshot.png)
+
 ## Apps
 
 Source code of the apps that are used:
@@ -13,6 +15,20 @@ Source code of the apps that are used:
 * [nechifor-index](https://github.com/paul-nechifor/nechifor-index)
 * [sibf](https://github.com/paul-nechifor/sibf)
 * [sidrem](https://github.com/paul-nechifor/sidrem)
+
+## Usage
+
+Install the requirements:
+
+    npm install
+
+Build it:
+
+    npm run build
+
+Run it:
+
+    npm run start
 
 ## License
 
