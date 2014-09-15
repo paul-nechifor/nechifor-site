@@ -8,7 +8,7 @@ The Node app that joins all my other [Intercessor][ic] apps.
 
 Source code of the apps that are used:
 
-* [circuits](https://github.com/paul-nechifor/sidrem)
+* [circuits](https://github.com/paul-nechifor/circuits)
 * [git-visualization](https://github.com/paul-nechifor/git-visualization)
 * [intercessor-example](https://github.com/paul-nechifor/intercessor-example)
 * [nechifor-blog](https://github.com/paul-nechifor/nechifor-blog)
