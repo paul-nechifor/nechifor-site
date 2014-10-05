@@ -29,12 +29,13 @@ class App
 
 getApps = ->
   list = [
-    'intercessor-example'
-    'git-visualization'
-    'sidrem'
-    'sibf'
-    'circuits'
     'check-your-privilege'
+    'circuits'
+    'git-visualization'
+    'identitate-falsa'
+    'intercessor-example'
+    'sibf'
+    'sidrem'
     ['nechifor-blog', 'blog']
     'nechifor-index'
   ]
