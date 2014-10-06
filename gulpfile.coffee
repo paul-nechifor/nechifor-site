@@ -37,6 +37,7 @@ getApps = ->
     'sibf'
     'sidrem'
     ['nechifor-blog', 'blog']
+    ['pseudoromanian', 'pseudoromana']
     'nechifor-index'
   ]
   projectsRoot = '/home/p/pro'

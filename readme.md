@@ -14,6 +14,7 @@ Source code of the apps that are used:
 * [intercessor-example](https://github.com/paul-nechifor/intercessor-example)
 * [nechifor-blog](https://github.com/paul-nechifor/nechifor-blog)
 * [nechifor-index](https://github.com/paul-nechifor/nechifor-index)
+* [pseudoromanian](https://github.com/paul-nechifor/pseudoromanian)
 * [sibf](https://github.com/paul-nechifor/sibf)
 * [sidrem](https://github.com/paul-nechifor/sidrem)
 
