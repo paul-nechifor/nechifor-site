@@ -30,10 +30,13 @@ class App
 getApps = ->
   list = [
     'check-your-privilege'
+    'chess-puzzles'
     'circuits'
     'git-visualization'
+    'horoscop'
     'identitate-falsa'
     'intercessor-example'
+    'jpeg-enricher'
     'sibf'
     'sidrem'
     ['nechifor-blog', 'blog']
