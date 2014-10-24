@@ -51,7 +51,7 @@ prepareBuild = (cb) ->
     rm -fr build
     mkdir -p build build/views build/s/css
     cp -r views/* build/views
-    coffee --compile --bare --output build/app app/Site.coffee
+    coffee -cbo build/app app/Site.coffee
   """, cb
 
 makeStyle = (cb) ->

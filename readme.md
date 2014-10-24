@@ -23,9 +23,9 @@ Source code of the apps that are used:
 
 ## Usage
 
-Install the requirements:
+Download all the requirements (it will take a while):
 
-    npm install
+    npm run prepare
 
 Build it:
 
