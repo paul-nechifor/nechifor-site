@@ -37,6 +37,7 @@ getApps = ->
     'identitate-falsa'
     'intercessor-example'
     'jpeg-enricher'
+    'papers'
     'sibf'
     'sidrem'
     ['nechifor-blog', 'blog']
