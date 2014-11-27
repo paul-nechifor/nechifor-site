@@ -21,6 +21,7 @@ Source code of the apps that are used:
 * [pseudoromanian](https://github.com/paul-nechifor/pseudoromanian)
 * [sibf](https://github.com/paul-nechifor/sibf)
 * [sidrem](https://github.com/paul-nechifor/sidrem)
+* [webgl-demos](https://github.com/paul-nechifor/webgl-demos)
 
 ## Usage
 

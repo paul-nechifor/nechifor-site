@@ -40,6 +40,7 @@ getApps = ->
     'papers'
     'sibf'
     'sidrem'
+    'webgl-demos'
     ['nechifor-blog', 'blog']
     ['pseudoromanian', 'pseudoromana']
     'nechifor-index'
