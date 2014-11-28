@@ -1,9 +1,10 @@
+async = require 'async'
+fs = require 'fs'
+gitRequire = require 'git-require'
+gulp = require 'gulp'
 {Build} = require 'web-build-tools'
 {Intercessor} = require 'intercessor'
 {sh, cmd} = Build
-async = require 'async'
-gulp = require 'gulp'
-fs = require 'fs'
 
 analyticsCode = do ->
   try
@@ -12,13 +13,7 @@ analyticsCode = do ->
     null
 
 class App
-  constructor: (@root, @opts) ->
-    if typeof @opts is 'string'
-      @name = @opts
-    else if @opts instanceof Array
-      @name = @opts[0]
-      @customRoot = @opts[1]
-    @path = @root + '/' + @name
+  constructor: (@path, @customRoot) ->
 
   build: (cb) ->
     @intercessor = new Intercessor @path, 'build'
@@ -27,26 +22,34 @@ class App
     @intercessor.analyticsCode = analyticsCode
     @intercessor.build cb
 
-getApps = ->
-  list = [
-    'check-your-privilege'
-    'chess-puzzles'
-    'circuits'
-    'git-visualization'
-    'horoscop'
-    'identitate-falsa'
-    'intercessor-example'
-    'jpeg-enricher'
-    'papers'
-    'sibf'
-    'sidrem'
-    'webgl-demos'
-    ['nechifor-blog', 'blog']
-    ['pseudoromanian', 'pseudoromana']
-    'nechifor-index'
-  ]
-  projectsRoot = '/home/p/pro'
-  list.map (e) -> new App projectsRoot, e
+# TODO Instead of this list, set tags on nechifor-info to ge this.
+appList = [
+  'check-your-privilege'
+  'chess-puzzles'
+  'circuits'
+  'git-visualization'
+  'horoscop'
+  'identitate-falsa'
+  'intercessor-example'
+  'jpeg-enricher'
+  'papers'
+  'sibf'
+  'sidrem'
+  'webgl-demos'
+  ['nechifor-blog', 'blog']
+  ['pseudoromanian', 'pseudoromana']
+  'nechifor-index'
+]
+
+getApps = (cb) ->
+  gitRequire.repos __dirname, getProjectsConfig(), (err, repos) ->
+    return cb err if err
+    cb null, appList.map (elem) ->
+      if typeof elem is 'string'
+        name = elem
+      else
+        [name, customRoot] = elem
+      new App repos[name].dir, customRoot
 
 prepareBuild = (cb) ->
   sh """
@@ -76,11 +79,32 @@ writeAppJs = (appInfos, rootProject, cb) ->
   """
   cb()
 
+loadInfo = (cb) ->
+  repos = 'nechifor-info': 'git@github.com:paul-nechifor/nechifor-info'
+  config = dir: 'projects', repos: repos
+  gitRequire.install __dirname, config, cb
+
+getProjectsConfig = ->
+  repos = {}
+  for p in appList
+    name = if typeof(p) is 'string' then p else p[0]
+    repos[name] = 'git@github.com:paul-nechifor/' + name
+  repos
+  dir: 'projects', repos: repos
+
+gulp.task 'projects', (cb) ->
+  loadInfo (err) ->
+    return cb err if err
+    gitRequire.install __dirname, getProjectsConfig(), (err, repos) ->
+      return cb err if err
+      cb()
+
 gulp.task 'default', (cb) ->
-  apps = getApps()
   rootProject = 'nechifor-index'
-  prepareBuild ->
-    makeStyle ->
-      compileAll apps, (err, appInfos) ->
-        throw err if err
-        writeAppJs appInfos, rootProject, cb
+  getApps = (err, apps) ->
+    return cb err if err
+    prepareBuild ->
+      makeStyle ->
+        compileAll apps, (err, appInfos) ->
+          return cb err if err
+          writeAppJs appInfos, rootProject, cb
