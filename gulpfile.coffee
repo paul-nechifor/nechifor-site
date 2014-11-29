@@ -6,6 +6,8 @@ gulp = require 'gulp'
 {Intercessor} = require 'intercessor'
 {sh, cmd} = Build
 
+process.env.GIT_REQUIRE_DIR or= __dirname + '/projects'
+
 analyticsCode = do ->
   try
     fs.readFileSync('private/analyticsCode', 'utf8').trim()
@@ -16,6 +18,18 @@ class App
   constructor: (@path, @customRoot) ->
 
   build: (cb) ->
+    @preparePackage (err) =>
+      return cb err if err
+      @buildIntercessor cb
+
+  preparePackage: (cb) ->
+    sh """
+      cd '#{@path}'
+      npm install
+      npm run intercessor-make
+    """, cb
+
+  buildIntercessor: (cb) ->
     @intercessor = new Intercessor @path, 'build'
     @intercessor.customRoot = @customRoot if @customRoot
     @intercessor.standalone = false
@@ -65,10 +79,11 @@ makeStyle = (cb) ->
 
 compileAll = (apps, cb) ->
   getAppInfo = (app, cb) ->
+    console.log 'Building', app.path
     app.build (err) ->
       return cb err if err
       cb null, app.intercessor.app
-  async.map apps, getAppInfo, cb
+  async.mapSeries apps, getAppInfo, cb
 
 writeAppJs = (appInfos, rootProject, cb) ->
   fs.writeFileSync 'build/app/app.js', """
@@ -81,7 +96,7 @@ writeAppJs = (appInfos, rootProject, cb) ->
 
 loadInfo = (cb) ->
   repos = 'nechifor-info': 'git@github.com:paul-nechifor/nechifor-info'
-  config = dir: 'projects', repos: repos
+  config = dir: null, repos: repos
   gitRequire.install __dirname, config, cb
 
 getProjectsConfig = ->
@@ -100,11 +115,10 @@ gulp.task 'projects', (cb) ->
       cb()
 
 gulp.task 'default', (cb) ->
-  rootProject = 'nechifor-index'
-  getApps = (err, apps) ->
+  getApps (err, apps) ->
     return cb err if err
     prepareBuild ->
       makeStyle ->
         compileAll apps, (err, appInfos) ->
           return cb err if err
-          writeAppJs appInfos, rootProject, cb
+          writeAppJs appInfos, 'nechifor-index', cb
