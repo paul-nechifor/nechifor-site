@@ -4,7 +4,8 @@
   "author": "Paul Nechifor <paul@nechifor.net> (http://nechifor.net/)",
   "scripts": {
     "build": "gulp",
-    "start": "node build/app/app.js"
+    "start": "node build/app/app.js",
+    "up": "npm install && gulp projects && npm run build && npm run start"
   },
   "dependencies": {
     "async": "^0.9.0",

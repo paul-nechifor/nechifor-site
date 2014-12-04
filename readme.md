@@ -1,8 +1,8 @@
 # Nechifor Site
 
-The Node app that joins all my other [Intercessor][ic] apps.
+The Node app that joins all my other [Intercessor][] apps.
 
-![cover image](screenshot.png)
+![Nechifor Site screenshot.](screenshot.png)
 
 ## Apps
 
@@ -26,20 +26,16 @@ Source code of the apps that are used:
 
 ## Usage
 
-Download all the requirements (it will take a while):
+Clone this repo. Build everything and run it by typing:
 
-    npm run prepare
+    npm run up
 
-Build it:
-
-    npm run build
-
-Run it:
-
-    npm run start
+Go to [localhost:3000](http://localhost:3000) to see it. See other [supported
+commands][sc].
 
 ## License
 
 MIT
 
-[ic]: https://github.com/paul-nechifor/intercessor
+[Intercessor]: https://github.com/paul-nechifor/intercessor
+[sc]: https://github.com/paul-nechifor/intercessor#supported-commands
