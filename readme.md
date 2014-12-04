@@ -8,6 +8,7 @@ The Node app that joins all my other [Intercessor][ic] apps.
 
 Source code of the apps that are used:
 
+* [check-your-privilege](https://github.com/paul-nechifor/check-your-privilege)
 * [chess-puzzles](https://github.com/paul-nechifor/chess-puzzles)
 * [circuits](https://github.com/paul-nechifor/circuits)
 * [git-visualization](https://github.com/paul-nechifor/git-visualization)
