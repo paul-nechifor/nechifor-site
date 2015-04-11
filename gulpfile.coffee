@@ -104,8 +104,7 @@ getProjectsConfig = ->
   for p in appList
     name = if typeof(p) is 'string' then p else p[0]
     repos[name] = 'git@github.com:paul-nechifor/' + name
-  repos
-  dir: 'projects', repos: repos
+  dir: null, repos: repos
 
 gulp.task 'projects', (cb) ->
   loadInfo (err) ->
