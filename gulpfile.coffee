@@ -26,7 +26,7 @@ class App
     sh """
       cd '#{@path}'
       npm install
-      npm run intercessor-make
+      npm run intercessor-make || npm run build
     """, cb
 
   buildIntercessor: (cb) ->
@@ -41,7 +41,6 @@ appList = [
   'check-your-privilege'
   'chess-puzzles'
   'circuits'
-  'git-visualization'
   'horoscop'
   'identitate-falsa'
   'intercessor-example'
@@ -95,7 +94,7 @@ writeAppJs = (appInfos, rootProject, cb) ->
   cb()
 
 loadInfo = (cb) ->
-  repos = 'nechifor-info': 'git@github.com:paul-nechifor/nechifor-info'
+  repos = 'nechifor-info': 'https://github.com/paul-nechifor/nechifor-info'
   config = dir: null, repos: repos
   gitRequire.install __dirname, config, cb
 
@@ -103,7 +102,7 @@ getProjectsConfig = ->
   repos = {}
   for p in appList
     name = if typeof(p) is 'string' then p else p[0]
-    repos[name] = 'git@github.com:paul-nechifor/' + name
+    repos[name] = 'https://github.com/paul-nechifor/' + name
   dir: null, repos: repos
 
 gulp.task 'projects', (cb) ->
