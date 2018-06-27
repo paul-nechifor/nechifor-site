@@ -1,3 +1,7 @@
+# This repository has been moved to [gitlab.com/paul-nechifor/nechifor-site](http://gitlab.com/paul-nechifor/nechifor-site).
+
+Old readme:
+
 # Nechifor Site
 
 The Node app that joins all my other [Intercessor][] apps.
